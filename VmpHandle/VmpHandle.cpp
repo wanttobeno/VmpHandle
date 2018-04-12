@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "VmpHandle.h"
+#include "ParaHandle.h"
 #include "VmpHandleDlg.h"
 
 #ifdef _DEBUG
@@ -24,6 +25,8 @@ CVmpHandleApp::CVmpHandleApp()
 {
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
+	// 在入口函数一开始添加以下代码
+
 }
 
 
@@ -59,6 +62,7 @@ BOOL CVmpHandleApp::InitInstance()
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
+	//CVmpHandleDlg dlg;
 	CVmpHandleDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();

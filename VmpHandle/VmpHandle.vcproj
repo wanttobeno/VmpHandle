@@ -186,7 +186,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ClipboardHelper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DragEdit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyListCtrl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaAbout.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaHandle.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaRegister.cpp"
 				>
 			</File>
 			<File
@@ -210,6 +230,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\SunDay.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VirtualList.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VmpHandle.cpp"
 				>
 			</File>
@@ -224,7 +252,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\ClipboardHelper.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DragEdit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyListCtrl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaAbout.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaHandle.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaRegister.h"
 				>
 			</File>
 			<File
@@ -236,7 +284,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SunDay.h"
+				>
+			</File>
+			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VirtualList.h"
 				>
 			</File>
 			<File

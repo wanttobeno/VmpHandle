@@ -36,6 +36,12 @@ BOOL CVmpHandleDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
+	TCHAR MyDir[_MAX_PATH];  
+	SHGetSpecialFolderPath(this->GetSafeHwnd(),MyDir,CSIDL_DESKTOP,0);
+	_tcscat(MyDir,_T("\\log.txt"));
+	m_editFilePath.SetWindowText(MyDir);
+
+
 	char str[MAX_PATH+1] ={0};
 	GetWindowTextA(m_hWnd,str,MAX_PATH);
 	strcat(str," 编译时间： ");
@@ -48,12 +54,13 @@ BOOL CVmpHandleDlg::OnInitDialog()
 	SetWindowText(title);
 
 	m_tab.InsertItem(0,_T("Handle获取"));
-	m_tab.InsertItem(1,_T("寄存器搜索"));
-	m_tab.InsertItem(2,_T("关于"));
+	m_tab.InsertItem(1,_T("汇编指令搜索"));
+	m_tab.InsertItem(2,_T("寄存器搜索"));
 	m_tab.InsertItem(3,_T("关于"));
 	m_tab.InsertItem(4,_T("关于"));
 	m_tab.InsertItem(5,_T("关于"));
 	m_paraHandle.Create(IDD_DLG_HANDLE,GetDlgItem(IDC_TAB1));
+	m_paraCom.Create(IDD_DLG_COMMAND,GetDlgItem(IDC_TAB1));
 	m_paraReg.Create(IDD_DLG_REGISTER,GetDlgItem(IDC_TAB1));
 	m_paraAbout.Create(IDD_DLG_ABOUT,GetDlgItem(IDC_TAB1));
 
@@ -70,10 +77,12 @@ BOOL CVmpHandleDlg::OnInitDialog()
 	 
 	//设置子对话框尺寸并移动到指定位置 
 	m_paraHandle.MoveWindow(&rs); 
+	m_paraCom.MoveWindow(&rs);
 	m_paraReg.MoveWindow(&rs); 
 	m_paraAbout.MoveWindow(&rs); 
 
 	m_paraHandle.ShowWindow(TRUE);;
+	m_paraCom.ShowWindow(FALSE);
 	m_paraReg.ShowWindow(FALSE);
 	m_paraAbout.ShowWindow(FALSE);
 	m_tab.SetCurSel(0);
@@ -110,21 +119,25 @@ void CVmpHandleDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 	{
 	case 0:
 		m_paraHandle.ShowWindow(TRUE);
+		m_paraCom.ShowWindow(FALSE);
 		m_paraReg.ShowWindow(FALSE);
 		m_paraAbout.ShowWindow(FALSE);
 			break;
 	case 1:
 		m_paraHandle.ShowWindow(FALSE);
-		m_paraReg.ShowWindow(TRUE);
+		m_paraCom.ShowWindow(TRUE);
+		m_paraReg.ShowWindow(FALSE);
 		m_paraAbout.ShowWindow(FALSE);
 		break;
 	case 2:
 		m_paraHandle.ShowWindow(FALSE);
-		m_paraReg.ShowWindow(FALSE);
-		m_paraAbout.ShowWindow(TRUE);
+		m_paraCom.ShowWindow(FALSE);
+		m_paraReg.ShowWindow(TRUE);
+		m_paraAbout.ShowWindow(FALSE);
 		break;
 	case 3:
 		m_paraHandle.ShowWindow(FALSE);
+		m_paraCom.ShowWindow(FALSE);
 		m_paraReg.ShowWindow(FALSE);
 		m_paraAbout.ShowWindow(TRUE);
 		break;
@@ -147,21 +160,17 @@ void CVmpHandleDlg::OnBnClickedBtnOpen()
 		m_editFilePath.SetWindowText(szStr);
 
 		m_paraHandle.SetFileName(szStr);
+		m_paraCom.SetFileName(szStr);
 		m_paraReg.SetFileName(szStr);
 	}
 }
 
 void CVmpHandleDlg::OnEnChangeEdit1()
 {
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialog::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
-
-	// TODO:  Add your control notification handler code here
 	CString szStr;
 	m_editFilePath.GetWindowText(szStr);
 
 	m_paraHandle.SetFileName(szStr);
+	m_paraCom.SetFileName(szStr);
 	m_paraReg.SetFileName(szStr);
 }

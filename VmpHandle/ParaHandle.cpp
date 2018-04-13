@@ -76,7 +76,7 @@ BOOL CParaHandle::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0,_T("ID"),LVCFMT_CENTER,50);
+	m_list.InsertColumn(0,_T("ID"),LVCFMT_CENTER,40);
 	m_list.InsertColumn(1,_T("Dispatch"),LVCFMT_CENTER,80);
 	m_list.InsertColumn(2,_T("Address"),LVCFMT_CENTER,80);
 
@@ -99,6 +99,69 @@ void CParaHandle::OnBnClickedOk()
 		OutputDebugString(_T("等待超时\n"));
 		::MessageBox(m_hWnd, _T("任务已经在加载，请稍后"), _T("提示"), MB_OK);
 	}
+}
+
+
+
+void CParaHandle::LoadTraceData()
+{
+	do 
+	{
+		if (!PathFileExists(m_szFileName)) break;
+		FILE *pFile = _tfopen(m_szFileName.GetBuffer(),_T("rb"));
+		if (!pFile) break;
+
+		fseek(pFile, 0, SEEK_END);
+		size_t nLen = ftell(pFile);
+		fseek(pFile, 0, SEEK_SET);
+		char * pbuf = (char*)malloc(nLen + 1024); // 越界保护
+		if (!pbuf)
+		{
+			fclose(pFile);
+			break;
+		}
+		memset(pbuf, 0, nLen+1024);
+		nLen = fread(pbuf, 1, nLen, pFile);
+
+		unsigned char* szFindStart = (unsigned char*)pbuf;
+		unsigned char* szFindRet; 
+		int nMaxLen = nLen;
+		int nFindLen1 = strlen("[eax*4+");
+		int nFindLen2 = strlen("EDX=");
+		char szAddress[10]={0};
+		DWORD dwDispathAddress=0;
+		char* str;
+		vec.clear();
+		do
+		{
+			// 最大内存越界 < pbuf + nLen + 1024
+			szFindRet = SUNDAY(szFindStart,(unsigned char*)"[eax*4+",nFindLen1,nMaxLen);
+			if (!szFindRet) break;
+			szFindStart = szFindRet;
+			nMaxLen = nLen - (szFindRet-(unsigned char*)pbuf);
+			szFindRet = SUNDAY(szFindStart,(unsigned char*)"EDX=",nFindLen2,50);
+			if (szFindRet)
+			{
+				szFindStart = szFindRet;
+				nMaxLen = nLen - (szFindRet-(unsigned char*)pbuf);
+				memcpy(szAddress,szFindRet+4,8);
+				dwDispathAddress = strtol(szAddress,&str,16);
+				StlInsert(vec,dwDispathAddress);
+			}
+			else
+			{
+				szFindStart += 40;
+			}
+		}while(1);
+		free(pbuf);
+		fclose(pFile);
+		std::sort(vec.begin(),vec.end(),sort_token); // 先排序  
+		// 去除重复项  
+		StlCotainer::iterator unque_it  = std::unique(vec.begin(), vec.end());  
+		vec.erase(unque_it, vec.end());  
+		InsertListControl();
+		UpProcessState(Finish);
+	} while (0);
 }
 	
 void CParaHandle::OnBnClickedBtnSave()
@@ -182,69 +245,6 @@ void CParaHandle::OnBnClickedBtnSave()
 		fclose(pFile);
 	} while (0);	
 }
-
-
-void CParaHandle::LoadTraceData()
-{
-	do 
-	{
-		if (!PathFileExists(m_szFileName)) break;
-		FILE *pFile = _tfopen(m_szFileName.GetBuffer(),_T("rb"));
-		if (!pFile) break;
-
-		fseek(pFile, 0, SEEK_END);
-		size_t nLen = ftell(pFile);
-		fseek(pFile, 0, SEEK_SET);
-		char * pbuf = (char*)malloc(nLen + 1024); // 越界保护
-		if (!pbuf)
-		{
-			fclose(pFile);
-			break;
-		}
-		memset(pbuf, 0, nLen+1024);
-		nLen = fread(pbuf, 1, nLen, pFile);
-	
-		unsigned char* szFindStart = (unsigned char*)pbuf;
-		unsigned char* szFindRet; 
-		int nMaxLen = nLen;
-		int nFindLen1 = strlen("[eax*4+");
-		int nFindLen2 = strlen("EDX=");
-		char szAddress[10]={0};
-		DWORD dwDispathAddress=0;
-		char* str;
-		vec.clear();
-		do
-		{
-			// 最大内存越界 < pbuf + nLen + 1024
-			szFindRet = SUNDAY(szFindStart,(unsigned char*)"[eax*4+",nFindLen1,nMaxLen);
-			if (!szFindRet) break;
-			szFindStart = szFindRet;
-			nMaxLen = nLen - (szFindRet-(unsigned char*)pbuf);
-			szFindRet = SUNDAY(szFindStart,(unsigned char*)"EDX=",nFindLen2,50);
-			if (szFindRet)
-			{
-					szFindStart = szFindRet;
-					nMaxLen = nLen - (szFindRet-(unsigned char*)pbuf);
-					memcpy(szAddress,szFindRet+4,8);
-					dwDispathAddress = strtol(szAddress,&str,16);
-					StlInsert(vec,dwDispathAddress);
-			}
-			else
-			{
-				szFindStart += 40;
-			}
-		}while(1);
-		free(pbuf);
-		fclose(pFile);
-		std::sort(vec.begin(),vec.end(),sort_token); // 先排序  
-		// 去除重复项  
-		StlCotainer::iterator unque_it  = std::unique(vec.begin(), vec.end());  
-		vec.erase(unque_it, vec.end());  
-		InsertListControl();
-		UpProcessState(Finish);
-	} while (0);
-}
-
 
 void CParaHandle::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {

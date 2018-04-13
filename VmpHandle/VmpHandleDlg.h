@@ -6,6 +6,7 @@
 
 #include "ParaHandle.h"
 #include "VmpHandle.h"
+#include "ParaCommand.h"
 #include "ParaRegister.h"
 #include "ParaAbout.h"
 
@@ -33,6 +34,7 @@ protected:
 public:
 	CTabCtrl m_tab;
 	CParaHandle m_paraHandle;
+	CParaCommand m_paraCom;
 	CParaRegister m_paraReg;
 	CParaAbout m_paraAbout;
 	

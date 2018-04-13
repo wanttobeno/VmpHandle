@@ -194,11 +194,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FileHelper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MyListCtrl.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ParaAbout.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaCommand.cpp"
 				>
 			</File>
 			<File
@@ -260,11 +268,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FileHelper.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MyListCtrl.h"
 				>
 			</File>
 			<File
 				RelativePath=".\ParaAbout.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParaCommand.h"
 				>
 			</File>
 			<File

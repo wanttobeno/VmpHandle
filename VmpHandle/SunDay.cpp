@@ -31,3 +31,39 @@ unsigned char* SUNDAY(unsigned char *lpBase, unsigned char *lpCmp,DWORD len,DWOR
 	} 
 	return NULL;
 }
+
+void GetLineHeadAndTail(char * pFileBuf,long nFileSize,unsigned char* pFindPos, unsigned char* &pLineHead,unsigned char* &pLineTail)
+{
+	// 定位行首，倒叙查找换行符号
+	pLineHead = pFindPos;
+	do 
+	{
+		if (pLineHead<(unsigned char*)pFileBuf)
+		{
+			pLineHead=NULL;
+			break;
+		}
+
+		if (pLineHead[0] == '\n')
+			break;
+		pLineHead--;
+	} while (1);
+	//  行尾
+	pLineTail = pFindPos;
+	do 
+	{
+		if ((char*)pLineTail < pFileBuf+nFileSize)
+		{
+			if (pLineTail[0]=='\n') 
+				break;
+			pLineTail++;
+		}
+		else
+		{
+			pLineTail = NULL;
+			break;
+		}
+
+	} while (1);
+
+}

@@ -7,6 +7,7 @@
 #include "SunDay.h"
 #include <algorithm>
 
+//////////////////////////////////////////////////////////////////////////////////////
 //子线程函数  
 unsigned int __stdcall ThreadSearchFun(PVOID pM)
 {
@@ -43,6 +44,18 @@ void DeleteVec(SearchResult* pSearchdata)
 	delete pSearchdata;
 	pSearchdata = NULL;
 }
+
+int  uniqueCmp(const SearchResult*  pS1, const SearchResult* pS2)  
+{
+	long nValue1 = strtol(pS1->szAddress,NULL,16);
+	long nValue2 = strtol(pS2->szAddress,NULL,16);
+	if(nValue1==nValue2)
+		return 1;
+	else
+		return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 // CParaRegister dialog
 
@@ -81,9 +94,9 @@ BOOL CParaRegister::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0,_T("ID"),LVCFMT_CENTER,50);
+	m_list.InsertColumn(0,_T("ID"),LVCFMT_CENTER,40);
 	m_list.InsertColumn(1,_T("Address"),LVCFMT_CENTER,80);
-	m_list.InsertColumn(2,_T("Thread"),LVCFMT_CENTER,100);
+	m_list.InsertColumn(2,_T("Thread"),LVCFMT_CENTER,50);
 	m_list.InsertColumn(3,_T("Command"),LVCFMT_CENTER,220);
 	m_list.InsertColumn(4,_T("Register"),LVCFMT_CENTER,100);
 	m_editKeyWord.SetWindowText(_T("EAX=00000040"));
@@ -202,13 +215,6 @@ int CParaRegister::SearchData(void)
 	return 0;
 }
 
-
-void DeleteCopy(SearchResult* pSearchdata)
-{
-	delete pSearchdata;
-	pSearchdata = NULL;
-}
-
 void CParaRegister::OnBnClickedBtnSearch()
 {
 	// TODO: Add your control notification handler code here
@@ -241,16 +247,6 @@ void CParaRegister::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: Add your control notification handler code here
 	m_list.CopyItemTextToClipboard(pNMHDR,FALSE);
 	*pResult = 0;
-}
-
-int  uniqueCmp(const SearchResult*  pS1, const SearchResult* pS2)  
-{
-	long nValue1 = strtol(pS1->szAddress,NULL,16);
-	long nValue2 = strtol(pS2->szAddress,NULL,16);
-	if(nValue1==nValue2)
-		return 1;
-	else
-		return 0;
 }
 
 void CParaRegister::OnBnClickedBtnUnique()

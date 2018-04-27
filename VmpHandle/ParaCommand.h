@@ -22,6 +22,7 @@ protected:
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
+	virtual void OnOK();
 	DECLARE_MESSAGE_MAP()
 public:
 	std::vector<SearchResult*> m_pVec;
@@ -38,5 +39,6 @@ public:
 	afx_msg void OnLvnGetdispinfoList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedBtnUnique();
+	
 	BOOL m_bNoSysAddress;
 };

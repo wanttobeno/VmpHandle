@@ -42,4 +42,5 @@ public:
 	CDragEdit m_editFilePath;
 	afx_msg void OnBnClickedBtnOpen();
 	afx_msg void OnEnChangeEdit1();
+	virtual void OnOK();
 };

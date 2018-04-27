@@ -37,4 +37,5 @@ public:
 	afx_msg void OnLvnGetdispinfoList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedBtnUnique();
+	virtual void OnOK();
 };

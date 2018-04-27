@@ -314,3 +314,8 @@ int CParaHandle::SetFileName(CString szFileName)
 	m_szFileName = szFileName;
 	return 0;
 }
+
+void CParaHandle::OnOK()
+{
+	// 屏蔽回车关闭窗口
+}

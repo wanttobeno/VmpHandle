@@ -4,13 +4,14 @@
 
 struct SearchResult
 {
+	long nOffset;
 	char szAddress[10];
 	char szThread[20];
 	char szCom[60];
 	char szReg[16];
 	SearchResult()
 	{
-		ZeroMemory(this, 0, sizeof(SearchResult));
+		memset(this, 0, sizeof(SearchResult));
 	}
 };
 

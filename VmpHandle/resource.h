@@ -18,9 +18,9 @@
 #define IDC_TAB1                        1007
 #define IDC_BTN_SEARCH                  1009
 #define IDC_BUTTON2                     1010
+#define IDC_OK                          1010
 #define IDC_BTN_U                       1011
 #define IDC_BTN_UNIQUE                  1011
-#define IDC_CHECK_NO_SYSTEM_ADDRESS     1013
 #define IDC_CHECK_NO_SYS_ADDRESS        1013
 
 // Next default values for new objects
@@ -29,7 +29,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1015
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

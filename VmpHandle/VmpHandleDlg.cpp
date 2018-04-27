@@ -49,9 +49,7 @@ BOOL CVmpHandleDlg::OnInitDialog()
 	strcat(str," ");
 	strcat(str,__TIME__);
 	strcat(str," By：ZhanYue");
-	CString title;
-	title = str;
-	SetWindowText(title);
+	SetWindowTextA(m_hWnd,str);
 
 	m_tab.InsertItem(0,_T("Handle获取"));
 	m_tab.InsertItem(1,_T("汇编指令搜索"));
@@ -173,4 +171,9 @@ void CVmpHandleDlg::OnEnChangeEdit1()
 	m_paraHandle.SetFileName(szStr);
 	m_paraCom.SetFileName(szStr);
 	m_paraReg.SetFileName(szStr);
+}
+
+void CVmpHandleDlg::OnOK()
+{
+	// 屏蔽回车关闭窗口
 }

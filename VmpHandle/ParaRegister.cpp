@@ -95,10 +95,11 @@ BOOL CParaRegister::OnInitDialog()
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0,_T("ID"),LVCFMT_CENTER,40);
-	m_list.InsertColumn(1,_T("Address"),LVCFMT_CENTER,80);
-	m_list.InsertColumn(2,_T("Thread"),LVCFMT_CENTER,50);
-	m_list.InsertColumn(3,_T("Command"),LVCFMT_CENTER,220);
-	m_list.InsertColumn(4,_T("Register"),LVCFMT_CENTER,100);
+	m_list.InsertColumn(1,_T("Offset"),LVCFMT_CENTER,60);
+	m_list.InsertColumn(2,_T("Address"),LVCFMT_CENTER,80);
+	m_list.InsertColumn(3,_T("Thread"),LVCFMT_CENTER,50);
+	m_list.InsertColumn(4,_T("Command"),LVCFMT_CENTER,220);
+	m_list.InsertColumn(5,_T("Register"),LVCFMT_CENTER,100);
 	m_editKeyWord.SetWindowText(_T("EAX=00000040"));
 	return TRUE;
 }
@@ -271,4 +272,9 @@ void CParaRegister::OnBnClickedBtnUnique()
 		}
 	}
 	m_list.SetItemCount(m_pVec.size());
+}
+
+void CParaRegister::OnOK()
+{
+	// 屏蔽回车关闭窗口
 }

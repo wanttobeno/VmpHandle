@@ -59,4 +59,5 @@ public:
 	enum ProState{None,Start,Finish};
 	int UpProcessState(ProState Sate);
 	afx_msg void OnBnClickedCalcOffset();
+	virtual void OnOK();
 };

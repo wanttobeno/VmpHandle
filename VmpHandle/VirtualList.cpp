@@ -26,6 +26,15 @@ END_MESSAGE_MAP()
 
 // CVirtualList message handlers
 
+enum ListID
+{
+	L_ID=0,
+	L_Offset,
+	L_Address,
+	L_Thread,
+	L_Command,
+	L_Reg
+};
 
 int CVirtualList::InsertItemDataCallBack(NMHDR* pNMHDR,std::vector<SearchResult*>& pVec)
 {
@@ -36,23 +45,30 @@ int CVirtualList::InsertItemDataCallBack(NMHDR* pNMHDR,std::vector<SearchResult*
 	{
 		CString szTmp;
 		switch(pItem->iSubItem){
-		case 0: //填充数据项的名字
+		case L_ID: //填充数据项的名字
 			{
 				TCHAR bufId[20]={0};
 				_itot(pItem->iItem+1,bufId,10);
 				szTmp = bufId;
 			}
 			break;
-		case 1: //填充子项2
+		case L_Offset:
+			{
+				TCHAR bufId[20]={0};
+				_itot(pVec[iItemIndx]->nOffset,bufId,10);
+				szTmp = bufId;
+			}
+			break;
+		case L_Address: //填充子项2
 			szTmp = pVec[iItemIndx]->szAddress;
 			break;
-		case 2: //填充子项3
+		case L_Thread: //填充子项3
 			szTmp = pVec[iItemIndx]->szThread;
 			break;
-		case 3: //填充子项4
+		case L_Command: //填充子项4
 			szTmp = pVec[iItemIndx]->szCom;
 			break;
-		case 4: //填充子项5
+		case L_Reg: //填充子项5
 			szTmp = pVec[iItemIndx]->szReg;
 			break;
 		}

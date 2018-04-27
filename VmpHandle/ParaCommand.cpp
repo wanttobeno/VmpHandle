@@ -125,10 +125,11 @@ BOOL CParaCommand::OnInitDialog()
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0,_T("ID"),LVCFMT_CENTER,40);
-	m_list.InsertColumn(1,_T("Address"),LVCFMT_CENTER,80);
-	m_list.InsertColumn(2,_T("Thread"),LVCFMT_CENTER,50);
-	m_list.InsertColumn(3,_T("Command"),LVCFMT_CENTER,220);
-	m_list.InsertColumn(4,_T("Register"),LVCFMT_CENTER,100);
+	m_list.InsertColumn(1,_T("Offset"),LVCFMT_CENTER,60);
+	m_list.InsertColumn(2,_T("Address"),LVCFMT_CENTER,80);
+	m_list.InsertColumn(3,_T("Thread"),LVCFMT_CENTER,50);
+	m_list.InsertColumn(4,_T("Command"),LVCFMT_CENTER,220);
+	m_list.InsertColumn(5,_T("Register"),LVCFMT_CENTER,100);
 	m_editKeyWord.SetWindowText(_T("add edx,0x"));
 	return TRUE;
 }
@@ -157,6 +158,8 @@ int CParaCommand::SetFileName(CString szFileName)
 int CParaCommand::SearchData(void)
 {
 	bool bNoSysAddress = m_bNoSysAddress;
+	long nPreFileOffset = 0;
+	long nOffset = 0;
 	do 
 	{
 		char szkeyWord[MAX_PATH]={0};
@@ -201,6 +204,9 @@ int CParaCommand::SearchData(void)
 			GetLineHeadAndTail(pFileBuf,nFileSize,pFindPos,pLineHead,pLineTail);
 			if(pLineHead ==NULL || pLineTail == NULL)
 				break;
+			nOffset= (char*)pLineHead - pFileBuf - nPreFileOffset;
+			nPreFileOffset = (char*)pLineHead - pFileBuf;
+
 			do
 			{
 				// 无效行
@@ -215,7 +221,7 @@ int CParaCommand::SearchData(void)
 						break;
 
 				SearchResult*  pResultData = new SearchResult;
-				memset(pResultData,0,sizeof(SearchResult));
+				pResultData->nOffset = nOffset;
 				memcpy(pResultData->szAddress,pLineHead+1,8);
 				// 模块名,必定有5个空格，否则无效行
 				char* pThreadEnd = strstr((char*)pLineHead,"     ");
@@ -313,4 +319,9 @@ void CParaCommand::OnBnClickedBtnUnique()
 	//	}
 	//}
 	//m_list.SetItemCount(m_pVec.size());
+}
+
+void CParaCommand::OnOK()
+{
+	// TODO: Add your control notification handler code here
 }
